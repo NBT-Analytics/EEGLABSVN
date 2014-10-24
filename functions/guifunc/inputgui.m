@@ -225,7 +225,7 @@ for index=1:length(allobj)
     if isnumeric(allobj), currentobj = allobj(index);
     else                  currentobj = allobj{index};
     end;
-    if isnumeric(currentobj)
+    if ishandle(currentobj)
         try,
           objstyle = get(currentobj, 'style');
           switch lower( objstyle )

@@ -86,12 +86,13 @@ if nargin < 2
 end;
  
 if isempty(components)
-	if ~isempty(EEG.reject.gcompreject)
-      		components = find(EEG.reject.gcompreject == 1);
-   	else
+    
+	%if ~isempty(EEG.reject.gcompreject)
+    %  		components = find(EEG.reject.gcompreject == 1);
+   	%else
         	fprintf('Warning: no components specified, no rejection performed\n');
          	return;
-   	end;
+   	%end;
 else
     if (max(components) > size(EEG.icaweights,1)) || min(components) < 1
         error('Component index out of range');
