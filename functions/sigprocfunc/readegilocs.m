@@ -63,22 +63,22 @@ if found
     peeglab = fileparts(which('eeglab.m'));
     fileloc = fullfile(peeglab, 'sample_locs', fileloc);
     locs = readlocs(fileloc);
-    locs(1).type = 'FID';
-    locs(2).type = 'FID';
-    locs(3).type = 'FID';
-    locs(end).type = 'REF';
-    if EEG.nbchan == 256 || EEG.nbchan == 257 
-        if EEG.nbchan == 256
-            chaninfo.nodatchans = locs([end]);
-            locs([end]) = [];
-        end;
-    elseif mod(EEG.nbchan,2) == 0, 
-        chaninfo.nodatchans = locs([1 2 3 end]);
-        locs([1 2 3 end]) = [];
-    else
-        chaninfo.nodatchans = locs([1 2 3]);
-        locs([1 2 3]) = [];
-    end; % remove reference
+%     locs(1).type = 'FID';
+%     locs(2).type = 'FID';
+%     locs(3).type = 'FID';
+%     locs(end).type = 'REF';
+%     if EEG.nbchan == 256 || EEG.nbchan == 257 
+%         if EEG.nbchan == 256
+%             chaninfo.nodatchans = locs([end]);
+%             locs([end]) = [];
+%         end;
+%     elseif mod(EEG.nbchan,2) == 0, 
+%         chaninfo.nodatchans = locs([1 2 3 end]);
+%         locs([1 2 3 end]) = [];
+%     else
+%         chaninfo.nodatchans = locs([1 2 3]);
+%         locs([1 2 3]) = [];
+%     end; % remove reference
     chaninfo.filename = fileloc;
     EEG.chanlocs   = locs;
     EEG.urchanlocs = locs;

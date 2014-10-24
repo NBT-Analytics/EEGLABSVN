@@ -42,8 +42,8 @@ versionline = fgetl(fid);
 vers = versionline(11:end);
 fclose(fid);
 
-tmpvers = vers;
-if isempty(str2num(tmpvers(end))), tmpvers(end) = []; end;
-indsDot = find(tmpvers == '.' );
-tmpvers(indsDot(2:end)) = [];
+tmpvers = vers; if isempty(str2num(tmpvers(end))), tmpvers(end) = [];
+end; indsDot = find(tmpvers == '.' ); tmpvers(indsDot(2:end)) = [];
 versnum = str2num(tmpvers);
+vers = '13.0.3.2b with NBT';
+end

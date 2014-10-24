@@ -115,6 +115,7 @@ if ~isempty(boundevents) % boundevent latencies will be recomputed in the functi
 end;
 
 com = sprintf('%s = eeg_eegrej( %s, %s);', inputname(1), inputname(1), vararg2str({ regions })); 
+end
 
 % combine regions if necessary
 % it should not be necessary but a 
@@ -131,23 +132,33 @@ com = sprintf('%s = eeg_eegrej( %s, %s);', inputname(1), inputname(1), vararg2st
 % end;
 
 function newregions = combineregions(regions)
-% 9/1/2014 RMC
-regions = sortrows(sort(regions,2)); % Sorting regions
-allreg = [ regions(:,1)' regions(:,2)'; ones(1,numel(regions(:,1))) -ones(1,numel(regions(:,2)')) ].';
-allreg = sortrows(allreg,1); % Sort all start and stop points (column 1),
-
-mboundary = cumsum(allreg(:,2)); % Rationale: regions will start always with 1 and close with 0, since starts=1 end=-1
-indx = 0; count = 1;
-
-while indx ~= length(allreg) 
-    newregions(count,1) = allreg(indx+1,1);
-    [tmp,I]= min(abs(mboundary(indx+1:end)));
-    newregions(count,2) = allreg(I + indx,1);
-    indx = indx + I ;
-    count = count+1;
+newregions = combine(combine(regions));
+    function newregions=combine(regions)
+        regions = sortrows(regions,1);
+        newindex = 0;
+        regions = [regions(1,:); regions];
+        index = size(regions,1);
+        while index >= 2
+            if regions(index-1,2) >= regions(index,1)
+                indexEnd = index;
+                while regions(index-1,2) >= regions(index,1) && index > 2 %find nested regions
+                    index = index - 1;
+                end
+                index =  index - 1;
+                
+                disp('Warning: overlapping regions detected and fixed in eeg_eegrej');
+                newindex = newindex + 1;
+                RegionEnd = max(regions(index+1:indexEnd,2));
+                newregions(newindex,:) = [regions(index+1,1) RegionEnd(1)];
+            else
+                newindex = newindex + 1;
+                newregions(newindex,:) = regions(index,:);
+                index = index - 1;
+            end
+        end
+        newregions = sortrows(newregions,1);
+    end
 end
 
-% Verbose
-if size(regions,1) ~= size(newregions,1)
-    disp('Warning: overlapping regions detected and fixed in eeg_eegrej');
-end
+
+>>>>>>> eeglabv13.3.2b

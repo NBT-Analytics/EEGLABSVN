@@ -270,6 +270,11 @@ if (nargin==1),
 				shading('interp');
 				view(2);
 				title('Demo of the capabilities of the ARROW function in 2-D');
+                %workaround conture function bug (Matlab R2014b)
+                 ind=isnan(z);
+                 F=scatteredInterpolant(x(~ind),y(~ind),z(~ind));
+                 z(ind)=F(x(ind),y(ind));
+                %workaround end
 				hold on; [C,H]=contour(x,y,z,20); hold off;
 				for k=H', set(k,'ZData',(axlim(6)+1)*ones(size(get(k,'XData'))),...
 				                'YData',10.^get(k,'YData'),'Color','k'); end;

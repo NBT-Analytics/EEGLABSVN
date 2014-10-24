@@ -517,6 +517,11 @@ if ~strcmpi(STYLE,'blank') % if draw interpolated scalp map
       %%%%%%%%%%%%%%%%%%%%%%%% Plot map contours only %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       %
       case 'contour' % plot surface contours only
+          %workaround conture function bug (Matlab R2014b)
+          ind=isnan(Zi);
+          F=scatteredInterpolant(Xi(~ind),Yi(~ind),Zi(~ind));
+          Zi(ind)=F(Xi(ind),Yi(ind));
+          %workaround end
           [cls chs] = contour(Xi,Yi,Zi,CONTOURNUM,'k'); 
       %
       %%%%%%%%%%%%%%%%%%%%%%%% Else plot map and contours %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -533,6 +538,11 @@ if ~strcmpi(STYLE,'blank') % if draw interpolated scalp map
               set(tmph, 'visible', 'off');
               handle = tmph;
           end;
+          %workaround conture function bug (Matlab R2014b)
+          ind=isnan(Zi);
+          F=scatteredInterpolant(Xi(~ind),Yi(~ind),Zi(~ind));
+          Zi(ind)=F(Xi(ind),Yi(ind));
+          %workaround end
           [cls chs] = contour(Xi,Yi,Zi,CONTOURNUM,'k'); 
           for h=chs, set(h,'color',CCOLOR); end
       %

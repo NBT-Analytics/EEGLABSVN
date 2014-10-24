@@ -160,7 +160,7 @@ if nargin < 2
     orichaninfo = [];
 end;
 
-if isempty(chans) || ~isnumeric(chans)
+if isempty(chans) || ~ishandle(chans(1))
     % in case an EEG structure was given as input
     % -------------------------------------------
     if isfield(chans, 'chanlocs')

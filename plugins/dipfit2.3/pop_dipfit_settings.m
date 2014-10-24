@@ -69,8 +69,6 @@ if nargin < 1
    return;
 end;
 
-if ~plugin_askinstall('Fieldtrip-lite', 'ft_sourceanalysis'), return; end;
-
 OUTEEG = EEG;
 com = '';
 
